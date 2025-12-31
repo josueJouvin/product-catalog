@@ -1,4 +1,4 @@
-const initialProducts = [
+export const initialProducts = [
   {
     id: 1,
     name: 'PlayStation 5',

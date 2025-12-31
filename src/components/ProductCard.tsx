@@ -1,16 +1,19 @@
-//Imports
-//....
-//....
-//....
+interface ProductCardProps {
+  product: {
+    id: number;
+    name: string;
+    price: number;
+    favorite: boolean;
+    image: string;
+  };
+}
 
-
-//Interface?????
-
-export const ProductCard = ({/*??????*/}) => {
-
+export const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <>
-      <h3>Product card</h3>
+      <h3>{product.name}</h3>
+      <p>Price: ${product.price}</p>
+      <img src={product.image} alt={product.name} />
     </>
   );
 };

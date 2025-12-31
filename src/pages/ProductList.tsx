@@ -1,13 +1,12 @@
-//Imports
-//....
-//....
-//....
+import { ProductCard } from '../components/ProductCard';
+import { initialProducts } from '../mocks/initialProducts';
 
 export const ProductList = () => {
-
   return (
     <>
-    <p>Product List</p>
+      {initialProducts.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
     </>
   );
 };
