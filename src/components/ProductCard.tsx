@@ -2,12 +2,14 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardMedia,
   IconButton,
   Typography,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { Product } from '../types/product';
 
 interface ProductCardProps {
@@ -16,6 +18,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, toggleFavorite }: ProductCardProps) => {
+  const navigate = useNavigate();
   return (
     <Card
       sx={{
@@ -81,6 +84,14 @@ export const ProductCard = ({ product, toggleFavorite }: ProductCardProps) => {
         >
           ${product.price}
         </Typography>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{ mt: 2, fontWeight: 600, borderRadius: 2 }}
+          onClick={() => navigate(`/product/${product.id}`)}
+        >
+          Ver más
+        </Button>
       </CardContent>
     </Card>
   );
