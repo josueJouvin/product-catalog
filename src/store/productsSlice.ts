@@ -29,14 +29,16 @@ const productsSlice = createSlice({
 export const { toggleFavorite } = productsSlice.actions;
 
 export const selectProductsItems = (state: RootState) => state.products.items;
-
 export const selectFavorites = createSelector([selectProductsItems], (items) =>
   items.filter((p) => p.favorite)
 );
-
-export const selectFavoritesTotal = createSelector(
+export const selectFavoritesTotalPrice = createSelector(
   [selectFavorites],
   (favorites) => favorites.reduce((sum, p) => sum + p.price, 0)
+);
+export const selectFavoritesTotalCount = createSelector(
+  [selectFavorites],
+  (favorites) => favorites.length
 );
 
 export default productsSlice.reducer;
