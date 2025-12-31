@@ -1,17 +1,40 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initialProducts } from '../mocks/initialProducts';
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
+import { fetchProducts as fetchProductsApi } from '../api/productsApi';
 import { Product } from '../types/product';
 import { RootState } from './store';
 
 interface ProductsState {
   items: Product[];
   loading: boolean;
+  error: string | null;
 }
 
 const initialState: ProductsState = {
-  items: initialProducts,
+  items: [],
   loading: false,
+  error: null,
 };
+
+/**
+ * AsyncThunk para obtener productos de la API.
+ * Maneja el ciclo completo: pending -> fulfilled/rejected
+ */
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async () => {
+    try {
+      const products = await fetchProductsApi();
+      return products;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 
 /**
  * productsSlice
@@ -41,6 +64,21 @@ const productsSlice = createSlice({
       }
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+      })
+      .addCase(fetchProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Error al cargar productos';
+      });
+  },
 });
 
 export const { toggleFavorite } = productsSlice.actions;
@@ -49,6 +87,16 @@ export const { toggleFavorite } = productsSlice.actions;
  * Selector para obtener todos los productos del estado global.
  */
 export const selectProductsItems = (state: RootState) => state.products.items;
+
+/**
+ *  Selector para obtener el estado de carga de productos.
+ */
+export const selectLoading = (state: RootState) => state.products.loading;
+
+/**
+ *  Selector para obtener el mensaje de error al cargar productos.
+ */
+export const selectError = (state: RootState) => state.products.error;
 
 /**
  * Selector memoizado para obtener solo los productos marcados como favoritos.

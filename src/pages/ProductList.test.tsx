@@ -36,6 +36,7 @@ const createMockStore = (initialProducts = mockProducts) => {
       products: {
         items: initialProducts,
         loading: false,
+        error: null,
       },
     },
   });

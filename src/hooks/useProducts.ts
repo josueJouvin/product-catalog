@@ -7,6 +7,8 @@
  *
  * @returns:
  *   - products: Lista de productos del estado global
+ *  - isLoading: Estado de carga de productos
+ *  - error: Mensaje de error al cargar productos
  *   - toggleFavorite: Función para alternar el estado de favorito de un producto
  *   - totalFavoritesPrice: Precio total de productos marcados como favoritos
  *   - totalFavoritesCount: Cantidad total de productos favoritos
@@ -17,8 +19,10 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  selectError,
   selectFavoritesTotalCount,
   selectFavoritesTotalPrice,
+  selectLoading,
   selectProductsItems,
   toggleFavorite,
 } from '../store/productsSlice';
@@ -26,7 +30,11 @@ import { AppDispatch } from '../store/store';
 
 export const useProducts = () => {
   const dispatch = useDispatch<AppDispatch>();
+
   const products = useSelector(selectProductsItems);
+  const isLoading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+
   const totalFavoritesPrice = useSelector(selectFavoritesTotalPrice);
   const totalFavoritesCount = useSelector(selectFavoritesTotalCount);
 
@@ -39,6 +47,8 @@ export const useProducts = () => {
 
   return {
     products,
+    isLoading,
+    error,
     toggleFavorite: handleToggleFavorite,
     totalFavoritesPrice,
     totalFavoritesCount,

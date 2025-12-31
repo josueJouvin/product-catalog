@@ -1,9 +1,43 @@
-import { Grid } from '@mui/material';
+import { Box, CircularProgress, Grid, Typography } from '@mui/material';
 import { ProductCard } from '../components/ProductCard';
 import { useProducts } from '../hooks/useProducts';
 
 export const ProductList = () => {
-  const { products, toggleFavorite } = useProducts();
+  const { products, toggleFavorite, isLoading, error } = useProducts();
+
+  if (isLoading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="80vh"
+      >
+        <CircularProgress size={60} />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="80vh"
+        flexDirection="column"
+        gap={2}
+      >
+        <Typography variant="h4" color="error">
+          Error al cargar productos
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
+          {error}
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
     <Grid
       container

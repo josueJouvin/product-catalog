@@ -22,6 +22,9 @@ export const ProductCard = ({ product, toggleFavorite }: ProductCardProps) => {
   return (
     <Card
       sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
         position: 'relative',
         boxShadow: 4,
         borderRadius: 3,

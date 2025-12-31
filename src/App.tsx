@@ -1,9 +1,13 @@
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Header } from './components/Header';
 import { ProductDetail } from './pages/ProductDetail';
 import { ProductList } from './pages/ProductList';
+import { fetchProducts } from './store/productsSlice';
+import { AppDispatch } from './store/store';
 
 const darkTheme = createTheme({
   palette: {
@@ -29,6 +33,12 @@ const darkTheme = createTheme({
 });
 
 function App() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
