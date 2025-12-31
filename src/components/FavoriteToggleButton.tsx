@@ -15,25 +15,27 @@ export function FavoriteToggleButton({
   size = 'medium',
   variant = 'default',
 }: FavoriteToggleButtonProps) {
-  const baseStyles =
+  const iconSize = size === 'small' ? 28 : 36;
+  // Estilos condicionales usando sx de MUI
+  const sx =
     variant === 'overlay'
       ? {
           backgroundColor: 'rgba(255,255,255,0.85)',
-          boxShadow: 1,
+          boxShadow: 2,
+          transition: 'background 0.2s',
           '&:hover': { backgroundColor: 'rgba(255,215,0,0.2)' },
         }
       : {
           bgcolor: 'rgba(255,255,255,0.1)',
+          transition: 'background 0.2s',
           '&:hover': { bgcolor: 'rgba(255,215,0,0.2)' },
         };
-
-  const iconSize = size === 'small' ? 28 : 36;
 
   return (
     <IconButton
       aria-label={favorite ? 'Eliminar de favoritos' : 'Añadir a favoritos'}
       onClick={onToggle}
-      sx={baseStyles}
+      sx={sx}
       size={size}
     >
       {favorite ? (
