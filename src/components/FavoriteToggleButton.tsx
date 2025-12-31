@@ -31,7 +31,7 @@ export function FavoriteToggleButton({
 
   return (
     <IconButton
-      aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
+      aria-label={favorite ? 'Eliminar de favoritos' : 'Añadir a favoritos'}
       onClick={onToggle}
       sx={baseStyles}
       size={size}
