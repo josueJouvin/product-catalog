@@ -1,16 +1,14 @@
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
 import {
   Box,
   Button,
   Card,
   CardContent,
   CardMedia,
-  IconButton,
   Typography,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '../types/product';
+import { FavoriteToggleButton } from './FavoriteToggleButton';
 
 interface ProductCardProps {
   product: Product;
@@ -35,26 +33,12 @@ export const ProductCard = ({ product, toggleFavorite }: ProductCardProps) => {
       }}
     >
       <Box sx={{ position: 'absolute', top: 12, right: 12, zIndex: 2 }}>
-        <IconButton
-          aria-label={
-            product.favorite ? 'Quitar de favoritos' : 'Agregar a favoritos'
-          }
-          sx={{
-            backgroundColor: 'rgba(255,255,255,0.85)',
-            boxShadow: 1,
-            '&:hover': {
-              backgroundColor: 'rgba(255,215,0,0.2)',
-            },
-          }}
+        <FavoriteToggleButton
+          favorite={product.favorite}
+          onToggle={() => toggleFavorite(product.id)}
           size="small"
-          onClick={() => toggleFavorite(product.id)}
-        >
-          {product.favorite ? (
-            <StarIcon sx={{ color: '#FFD700', fontSize: 28 }} />
-          ) : (
-            <StarBorderIcon sx={{ color: '#FFD700', fontSize: 28 }} />
-          )}
-        </IconButton>
+          variant="overlay"
+        />
       </Box>
       <CardMedia
         component="img"

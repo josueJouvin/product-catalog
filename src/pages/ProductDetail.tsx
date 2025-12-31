@@ -1,7 +1,6 @@
-import StarIcon from '@mui/icons-material/Star';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { Box, Button, Chip, IconButton, Typography } from '@mui/material';
+import { Box, Button, Chip, Typography } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
+import { FavoriteToggleButton } from '../components/FavoriteToggleButton';
 import { ProductNotFound } from '../components/ProductNotFound';
 import { useProducts } from '../hooks/useProducts';
 
@@ -67,22 +66,11 @@ export const ProductDetail = () => {
                 {product.title}
               </Typography>
             </Box>
-            <IconButton
-              aria-label={
-                product.favorite ? 'Quitar de favoritos' : 'Agregar a favoritos'
-              }
-              onClick={() => toggleFavorite(product.id)}
-              sx={{
-                bgcolor: 'rgba(255,255,255,0.1)',
-                '&:hover': { bgcolor: 'rgba(255,215,0,0.2)' },
-              }}
-            >
-              {product.favorite ? (
-                <StarIcon sx={{ color: '#FFD700', fontSize: 36 }} />
-              ) : (
-                <StarBorderIcon sx={{ color: '#FFD700', fontSize: 36 }} />
-              )}
-            </IconButton>
+            <FavoriteToggleButton
+              favorite={product.favorite}
+              onToggle={() => toggleFavorite(product.id)}
+              size="large"
+            />
           </Box>
 
           <Typography variant="h4" color="primary" fontWeight={900} mb={3}>
