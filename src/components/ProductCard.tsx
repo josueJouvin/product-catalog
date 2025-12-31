@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Chip,
   Typography,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -20,9 +21,6 @@ export const ProductCard = ({ product, toggleFavorite }: ProductCardProps) => {
   return (
     <Card
       sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
         position: 'relative',
         boxShadow: 4,
         borderRadius: 3,
@@ -52,30 +50,41 @@ export const ProductCard = ({ product, toggleFavorite }: ProductCardProps) => {
           borderBottom: '1px solid #eee',
         }}
       />
-      <CardContent sx={{ flexGrow: 1, textAlign: 'center', p: 2 }}>
-        <Typography
-          variant="h6"
-          component="h3"
-          gutterBottom
-          sx={{ fontWeight: 600 }}
+      <CardContent
+        sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', p: 2 }}
+      >
+        <Box sx={{ mb: 2 }}>
+          <Chip
+            label={`ID: ${product.id}`}
+            size="small"
+            sx={{ mb: 1, fontWeight: 600 }}
+          />
+          <Typography variant="h6" component="h3" sx={{ fontWeight: 600 }}>
+            {product.title}
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mt: 'auto',
+            gap: 2,
+          }}
         >
-          {product.title}
-        </Typography>
-        <Typography
-          variant="h5"
-          color="primary"
-          sx={{ fontWeight: 700, mb: 1 }}
-        >
-          ${product.price}
-        </Typography>
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={{ mt: 2, fontWeight: 600, borderRadius: 2 }}
-          onClick={() => navigate(`/product/${product.id}`)}
-        >
-          Ver más
-        </Button>
+          <Typography variant="h5" color="primary" sx={{ fontWeight: 700 }}>
+            ${product.price}
+          </Typography>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ fontWeight: 600, borderRadius: 2 }}
+            onClick={() => navigate(`/product/${product.id}`)}
+          >
+            Ver más
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );

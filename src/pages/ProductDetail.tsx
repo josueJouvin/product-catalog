@@ -57,11 +57,19 @@ export const ProductDetail = () => {
             mb={2}
           >
             <Box>
-              <Chip
-                label={product.category}
-                color="secondary"
-                sx={{ mb: 2, fontWeight: 600, fontSize: 14 }}
-              />
+              <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
+                <Chip
+                  label={`ID: ${product.id}`}
+                  size="small"
+                  sx={{ fontWeight: 600 }}
+                />
+                <Chip
+                  label={product.category}
+                  color="secondary"
+                  size="small"
+                  sx={{ fontWeight: 600 }}
+                />
+              </Box>
               <Typography variant="h3" fontWeight={800} color="primary" mb={1}>
                 {product.title}
               </Typography>
