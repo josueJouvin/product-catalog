@@ -12,9 +12,10 @@ import { Product } from '../types/product';
 
 interface ProductCardProps {
   product: Product;
+  toggleFavorite: (id: number) => void;
 }
 
-export const ProductCard = ({ product }: ProductCardProps) => {
+export const ProductCard = ({ product, toggleFavorite }: ProductCardProps) => {
   return (
     <Card
       sx={{
@@ -43,7 +44,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             },
           }}
           size="small"
-          // onClick={() => {}}
+          onClick={() => toggleFavorite(product.id)}
         >
           {product.favorite ? (
             <StarIcon sx={{ color: '#FFD700', fontSize: 28 }} />

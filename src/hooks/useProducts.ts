@@ -1,13 +1,26 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '../store/store';
-import { toggleFavorite } from '../store/productsSlice';
+import {
+  selectFavoritesTotal,
+  selectProductsItems,
+  toggleFavorite,
+} from '../store/productsSlice';
+import { AppDispatch, RootState } from '../store/store';
 import { Product } from '../types/product';
-import { useMemo, useEffect, useState, useCallback, useRef } from 'react';
-
 
 export const useProducts = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const products = useSelector((state: RootState) => state.products.items);
+  const products = useSelector(selectProductsItems);
+  const favoritesTotal = useSelector(selectFavoritesTotal);
+
+  const handleToggleFavorite = useCallback(
+    (id: number) => {
+      dispatch(toggleFavorite(id));
+    },
+    [dispatch]
+  );
+
+  //Before
   const loading = useSelector((state: RootState) => state.products.loading);
   const [productList, setProductList] = useState<Product[]>([]);
   const [isLoadingState, setIsLoadingState] = useState(false);
@@ -15,10 +28,14 @@ export const useProducts = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [initialized, setInitialized] = useState(false);
-  const [productCache, setProductCache] = useState<Map<number, Product>>(new Map());
+  const [productCache, setProductCache] = useState<Map<number, Product>>(
+    new Map()
+  );
   const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
-  const [categoryCache, setCategoryCache] = useState<Map<string, Product[]>>(new Map());
-  
+  const [categoryCache, setCategoryCache] = useState<Map<string, Product[]>>(
+    new Map()
+  );
+
   const prevProductsRef = useRef<Product[]>([]);
   const renderCountRef = useRef(0);
   const lastFetchTimeRef = useRef<number>(Date.now());
@@ -50,16 +67,14 @@ export const useProducts = () => {
 
   useEffect(() => {
     const cache = new Map<number, Product>();
-    products.forEach(product => {
+    products.forEach((product) => {
       cache.set(product.id, product);
     });
     setProductCache(cache);
   }, [products]);
 
   useEffect(() => {
-    const favIds = products
-      .filter(p => p.favorite)
-      .map(p => p.id);
+    const favIds = products.filter((p) => p.favorite).map((p) => p.id);
     setFavoriteIds(favIds);
   }, [products]);
 
@@ -68,11 +83,11 @@ export const useProducts = () => {
   }, [products]);
 
   const favoriteCount = useMemo(() => {
-    return products.filter(p => p.favorite).length;
+    return products.filter((p) => p.favorite).length;
   }, [products]);
 
   const memoizedFavCount = useMemo(() => {
-    const count = productList.filter(p => p.favorite).length;
+    const count = productList.filter((p) => p.favorite).length;
     return count;
   }, [productList]);
 
@@ -91,44 +106,50 @@ export const useProducts = () => {
   }, [productList]);
 
   const getProductById = (id: number): Product | undefined => {
-    return products.find(p => p.id === id);
+    return products.find((p) => p.id === id);
   };
 
-  const getProductByIdCallback = useCallback((id: number): Product | undefined => {
-    if (productCache.has(id)) {
-      return productCache.get(id);
-    }
-    return productList.find(p => p.id === id);
-  }, [productList, productCache]);
+  const getProductByIdCallback = useCallback(
+    (id: number): Product | undefined => {
+      if (productCache.has(id)) {
+        return productCache.get(id);
+      }
+      return productList.find((p) => p.id === id);
+    },
+    [productList, productCache]
+  );
 
   const findProductById = (id: number): Product | undefined => {
-    const found = products.find(p => p.id === id);
+    const found = products.find((p) => p.id === id);
     if (found) {
       console.log('Product found:', '????¿¿¿¿');
     }
     return found;
   };
 
-  const handleToggleFavorite = (id: number) => {
-    dispatch(toggleFavorite(id));
-    setLastUpdate(new Date());
-  };
+  // const handleToggleFavorite = (id: number) => {
+  //   dispatch(toggleFavorite(id));
+  //   setLastUpdate(new Date());
+  // };
 
-  const toggleFavoriteCallback = useCallback((id: number) => {
-    handleToggleFavorite(id);
-    console.log('Toggled favorite for product:', id);
-  }, [dispatch]);
+  const toggleFavoriteCallback = useCallback(
+    (id: number) => {
+      handleToggleFavorite(id);
+      console.log('Toggled favorite for product:', id);
+    },
+    [dispatch]
+  );
 
   const getFavoriteProducts = (): Product[] => {
-    return products.filter(p => p.favorite);
+    return products.filter((p) => p.favorite);
   };
 
   const memoizedFavoriteProducts = useMemo(() => {
-    return productList.filter(p => p.favorite);
+    return productList.filter((p) => p.favorite);
   }, [productList]);
 
   const getFavoriteProductsCallback = useCallback((): Product[] => {
-    return products.filter(p => p.favorite);
+    return products.filter((p) => p.favorite);
   }, [products]);
 
   const fetchFavorites = (): Product[] => {
@@ -142,23 +163,26 @@ export const useProducts = () => {
   };
 
   const getProductsByCategory = (category: string): Product[] => {
-    return products.filter(p => p.category === category);
+    return products.filter((p) => p.category === category);
   };
 
-  const getProductsByCategoryCallback = useCallback((category: string): Product[] => {
-    if (categoryCache.has(category)) {
-      return categoryCache.get(category) || [];
-    }
-    
-    const filtered = productList.filter(p => p.category === category);
-    setCategoryCache(prev => new Map(prev).set(category, filtered));
-    
-    return filtered;
-  }, [productList, categoryCache]);
+  const getProductsByCategoryCallback = useCallback(
+    (category: string): Product[] => {
+      if (categoryCache.has(category)) {
+        return categoryCache.get(category) || [];
+      }
+
+      const filtered = productList.filter((p) => p.category === category);
+      setCategoryCache((prev) => new Map(prev).set(category, filtered));
+
+      return filtered;
+    },
+    [productList, categoryCache]
+  );
 
   const categorizedProducts = useMemo(() => {
     const categories: { [key: string]: Product[] } = {};
-    productList.forEach(product => {
+    productList.forEach((product) => {
       if (!categories[product.category]) {
         categories[product.category] = [];
       }
@@ -172,9 +196,12 @@ export const useProducts = () => {
     return product ? product.favorite : false;
   };
 
-  const checkIfFavorite = useCallback((id: number): boolean => {
-    return favoriteIds.includes(id);
-  }, [favoriteIds]);
+  const checkIfFavorite = useCallback(
+    (id: number): boolean => {
+      return favoriteIds.includes(id);
+    },
+    [favoriteIds]
+  );
 
   const countProductsByCategory = (category: string): number => {
     return getProductsByCategory(category).length;
@@ -182,7 +209,7 @@ export const useProducts = () => {
 
   const uniqueCategories = useMemo(() => {
     const categories = new Set<string>();
-    productList.forEach(p => categories.add(p.category));
+    productList.forEach((p) => categories.add(p.category));
     return Array.from(categories);
   }, [productList]);
 
@@ -192,7 +219,7 @@ export const useProducts = () => {
       favorites: favCount,
       categories: uniqueCategories.length,
       lastUpdate: lastUpdate.toISOString(),
-      renderCount: renderCountRef.current
+      renderCount: renderCountRef.current,
     };
   };
 
@@ -202,6 +229,10 @@ export const useProducts = () => {
 
   return {
     products,
+    toggleFavorite: handleToggleFavorite,
+    favoritesTotal,
+
+    //Before
     productList,
     loading,
     isLoadingState,
@@ -216,7 +247,7 @@ export const useProducts = () => {
     memoizedFavoriteProducts,
     categorizedProducts,
     uniqueCategories,
-    
+
     getProductById,
     getProductByIdCallback,
     findProductById,
@@ -230,7 +261,6 @@ export const useProducts = () => {
     countProductsByCategory,
     getStatistics,
     getAllProducts,
-    toggleFavorite: handleToggleFavorite,
     toggleFavoriteCallback,
   };
 };
