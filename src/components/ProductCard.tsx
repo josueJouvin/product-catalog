@@ -44,7 +44,7 @@ export const ProductCard = ({ product, toggleFavorite }: ProductCardProps) => {
       </Box>
       <CardMedia
         component="img"
-        height="200"
+        height="400"
         image={product.image}
         alt={product.title}
         sx={{

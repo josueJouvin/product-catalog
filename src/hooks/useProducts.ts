@@ -13,8 +13,6 @@
  *   - totalFavoritesPrice: Total price of products marked as favorites
  *   - totalFavoritesCount: Total count of favorite products
  *
- * This hook should be used in components that need to display or interact with products and favorites, keeping logic decoupled from the UI.
- *
  */
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';

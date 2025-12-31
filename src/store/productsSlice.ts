@@ -5,6 +5,7 @@ import {
   PayloadAction,
 } from '@reduxjs/toolkit';
 import { fetchProducts as fetchProductsApi } from '../api/productsApi';
+import { initialProducts } from '../mocks/initialProducts';
 import { Product } from '../types/product';
 import { RootState } from './store';
 
@@ -23,6 +24,7 @@ const initialState: ProductsState = {
 /**
  * AsyncThunk to fetch products from the API.
  * Handles the complete cycle: pending -> fulfilled/rejected
+ * Falls back to mock data if API fails.
  */
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
@@ -31,7 +33,9 @@ export const fetchProducts = createAsyncThunk(
       const products = await fetchProductsApi();
       return products;
     } catch (error) {
-      throw error;
+      // Fallback to mock data if API fails
+      console.warn('API failed, using mock data:', error);
+      return initialProducts;
     }
   }
 );
@@ -83,24 +87,9 @@ const productsSlice = createSlice({
 
 export const { toggleFavorite } = productsSlice.actions;
 
-/**
- * Selector to get all products from global state.
- */
 export const selectProductsItems = (state: RootState) => state.products.items;
-
-/**
- * Selector to get products loading state.
- */
 export const selectLoading = (state: RootState) => state.products.loading;
-
-/**
- * Selector to get error message when loading products.
- */
 export const selectError = (state: RootState) => state.products.error;
-
-/**
- * Memoized selector to get only products marked as favorites.
- */
 export const selectFavorites = createSelector([selectProductsItems], (items) =>
   items.filter((p) => p.favorite)
 );
