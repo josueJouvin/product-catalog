@@ -1,4 +1,3 @@
-
 export interface Product {
   id: number;
   title: string;
@@ -7,5 +6,4 @@ export interface Product {
   category: string;
   image: string;
   favorite: boolean;
-  //.... other fields maybe you consider important
 }

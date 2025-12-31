@@ -16,7 +16,6 @@ export function FavoriteToggleButton({
   variant = 'default',
 }: FavoriteToggleButtonProps) {
   const iconSize = size === 'small' ? 28 : 36;
-  // Estilos condicionales usando sx de MUI
   const sx =
     variant === 'overlay'
       ? {

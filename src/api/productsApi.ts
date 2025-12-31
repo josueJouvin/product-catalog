@@ -1,8 +1,8 @@
 /**
- * API Service para Fake Store API
+ * API Service for Fake Store API
  *
- * Maneja las llamadas HTTP a la API externa y mapea los datos
- * al formato interno de la aplicación para evitar acoplamiento con el contrato externo.
+ * Handles HTTP calls to the external API and maps the data
+ * to the application's internal format to avoid coupling with the external contract.
  */
 
 import { Product } from '../types/product';
@@ -23,8 +23,8 @@ interface FakeStoreProduct {
 const API_URL = 'https://fakestoreapi.com/products';
 
 /**
- * Mapea un producto de Fake Store API al formato interno de la aplicación.
- * Agrega el campo 'favorite' que no existe en la API.
+ * Maps a product from Fake Store API to the application's internal format.
+ * Adds the 'favorite' field which doesn't exist in the API.
  */
 const mapToProduct = (apiProduct: FakeStoreProduct): Product => ({
   id: apiProduct.id,
@@ -37,8 +37,8 @@ const mapToProduct = (apiProduct: FakeStoreProduct): Product => ({
 });
 
 /**
- * Obtiene todos los productos de Fake Store API.
- * @returns Promise con array de productos mapeados al formato interno
+ * Fetches all products from Fake Store API.
+ * @returns Promise with array of products mapped to internal format
  */
 export const fetchProducts = async (): Promise<Product[]> => {
   const response = await fetch(API_URL);

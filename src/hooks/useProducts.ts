@@ -1,19 +1,19 @@
 /**
  * Custom hook useProducts
  *
- * Este hook centraliza la lógica de acceso y manipulación de productos en el catálogo, incluyendo el manejo de favoritos.
- * Utiliza Redux para obtener el listado de productos, el total de favoritos y el precio total de favoritos.
- * Expone una función para alternar el estado de favorito de un producto, optimizada con useCallback para evitar renders innecesarios.
+ * This hook centralizes the logic for accessing and manipulating products in the catalog, including favorites management.
+ * Uses Redux to get the product list, favorites total, and total price of favorites.
+ * Exposes a function to toggle a product's favorite status, optimized with useCallback to avoid unnecessary renders.
  *
  * @returns:
- *   - products: Lista de productos del estado global
- *  - isLoading: Estado de carga de productos
- *  - error: Mensaje de error al cargar productos
- *   - toggleFavorite: Función para alternar el estado de favorito de un producto
- *   - totalFavoritesPrice: Precio total de productos marcados como favoritos
- *   - totalFavoritesCount: Cantidad total de productos favoritos
+ *   - products: Product list from global state
+ *   - isLoading: Products loading state
+ *   - error: Error message when loading products
+ *   - toggleFavorite: Function to toggle a product's favorite status
+ *   - totalFavoritesPrice: Total price of products marked as favorites
+ *   - totalFavoritesCount: Total count of favorite products
  *
- * Este hook debe usarse en componentes que requieran mostrar o interactuar con productos y favoritos, manteniendo la lógica desacoplada de la UI.
+ * This hook should be used in components that need to display or interact with products and favorites, keeping logic decoupled from the UI.
  *
  */
 import { useCallback } from 'react';

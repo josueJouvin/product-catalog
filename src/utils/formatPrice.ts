@@ -1,8 +1,8 @@
 /**
- * Formatea un precio numérico al formato de dólares estadounidenses.
+ * Formats a numeric price to US dollar format.
  *
- * @param price - El precio a formatear
- * @returns String formateado como "$1,234.56"
+ * @param price - The price to format
+ * @returns Formatted string as "$1,234.56"
  *
  * @example
  * formatPrice(2849.97) // "$2,849.97"

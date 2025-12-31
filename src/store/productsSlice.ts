@@ -21,8 +21,8 @@ const initialState: ProductsState = {
 };
 
 /**
- * AsyncThunk para obtener productos de la API.
- * Maneja el ciclo completo: pending -> fulfilled/rejected
+ * AsyncThunk to fetch products from the API.
+ * Handles the complete cycle: pending -> fulfilled/rejected
  */
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
@@ -39,23 +39,23 @@ export const fetchProducts = createAsyncThunk(
 /**
  * productsSlice
  *
- * Slice de Redux encargado de manejar el estado de los productos y sus favoritos.
- * Incluye el reducer toggleFavorite para alternar el estado de favorito de un producto.
+ * Redux slice responsible for managing products and favorites state.
+ * Includes the toggleFavorite reducer to toggle a product's favorite status.
  *
- * Los selectores y lógica de acceso a datos se definen aquí para mantener la separación de responsabilidades:
- *   - El slice gestiona el estado global y la lógica de negocio centralizada.
- *   - Los hooks (como useProducts) se encargan de conectar la UI con el estado.
+ * Selectors and data access logic are defined here to maintain separation of concerns:
+ *   - The slice manages global state and centralized business logic.
+ *   - Hooks (like useProducts) handle connecting the UI with the state.
  *
- * Esto permite reutilizar los selectores en cualquier parte de la app, mantener la lógica desacoplada de la UI y facilitar el testing.
+ * This allows reusing selectors anywhere in the app, keeping logic decoupled from UI and facilitating testing.
  */
 const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
     /**
-     * Alterna el estado de favorito de un producto dado su id.
-     * @param state Estado actual de productos
-     * @param action id del producto a alternar
+     * Toggles the favorite status of a product by its id.
+     * @param state Current products state
+     * @param action Product id to toggle
      */
     toggleFavorite: (state, action: PayloadAction<number>) => {
       const product = state.items.find((p) => p.id === action.payload);
@@ -84,29 +84,29 @@ const productsSlice = createSlice({
 export const { toggleFavorite } = productsSlice.actions;
 
 /**
- * Selector para obtener todos los productos del estado global.
+ * Selector to get all products from global state.
  */
 export const selectProductsItems = (state: RootState) => state.products.items;
 
 /**
- *  Selector para obtener el estado de carga de productos.
+ * Selector to get products loading state.
  */
 export const selectLoading = (state: RootState) => state.products.loading;
 
 /**
- *  Selector para obtener el mensaje de error al cargar productos.
+ * Selector to get error message when loading products.
  */
 export const selectError = (state: RootState) => state.products.error;
 
 /**
- * Selector memoizado para obtener solo los productos marcados como favoritos.
+ * Memoized selector to get only products marked as favorites.
  */
 export const selectFavorites = createSelector([selectProductsItems], (items) =>
   items.filter((p) => p.favorite)
 );
 
 /**
- * Selector memoizado para calcular el precio total de los productos favoritos.
+ * Memoized selector to calculate total price of favorite products.
  */
 export const selectFavoritesTotalPrice = createSelector(
   [selectFavorites],
@@ -114,7 +114,7 @@ export const selectFavoritesTotalPrice = createSelector(
 );
 
 /**
- * Selector memoizado para obtener la cantidad total de productos favoritos.
+ * Memoized selector to get total count of favorite products.
  */
 export const selectFavoritesTotalCount = createSelector(
   [selectFavorites],

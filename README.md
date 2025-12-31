@@ -19,9 +19,11 @@ npm run test
 
 ```
 src/
+├── api/
+│   └── productsApi.ts        # Servicio HTTP para Fake Store API
 ├── store/
 │   ├── store.ts              # Configuración del store Redux
-│   └── productsSlice.ts      # Estado de productos + selectores memoizados
+│   └── productsSlice.ts      # Estado de productos + thunks + selectores
 ├── hooks/
 │   └── useProducts.ts        # Custom hook refactorizado
 ├── components/
@@ -33,17 +35,22 @@ src/
 │   └── ProductDetail.tsx     # Vista de detalle
 ├── utils/
 │   └── formatPrice.ts        # Utilidad para formatear precios
-├── types/
-│   └── product.ts            # Tipos TypeScript
-└── mocks/
-    └── initialProducts.ts    # Datos estáticos
+└── types/
+    └── product.ts            # Tipos TypeScript
 ```
 
 ## 🏗️ Arquitectura
 
+### API Integration
+
+- **Fake Store API:** Integración con API externa para obtener productos reales
+- **Mapeo de datos:** Adapta el contrato externo al formato interno
+- **AsyncThunk:** Manejo de estados asíncronos (pending/fulfilled/rejected)
+
 ### Redux Store
 
-- **Slice:** `productsSlice` maneja todo el estado de productos
+- **Slice:** `productsSlice` maneja estado de productos y llamadas API
+- **Thunk:** `fetchProducts` para carga asíncrona desde la API
 - **Reducer:** `toggleFavorite` para cambiar estado de favorito
 - **Selectores memoizados:** Optimizan cálculos de favoritos y totales
 
@@ -103,16 +110,22 @@ Ver detalles completos en [REFACTORING.md](./REFACTORING.md)
 
 ### Vista Principal
 
+- ✅ Carga de productos desde Fake Store API
+- ✅ Estados de loading y error
 - ✅ Lista de productos en grid responsive
 - ✅ Toggle de favoritos con feedback visual
 - ✅ Resumen de favoritos (cantidad y total en $)
 - ✅ Navegación a detalle de producto
+- ✅ Visualización de ID de producto en cada card
+- ✅ Precios formateados con separadores de miles
 
 ### Vista de Detalle
 
 - ✅ Información completa del producto
 - ✅ Botón para volver a la lista
 - ✅ Manejo de producto no encontrado
+- ✅ Chips con ID y categoría
+- ✅ Precio formateado correctamente
 
 ## 👨‍💻 Autor
 
