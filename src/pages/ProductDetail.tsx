@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { FavoriteToggleButton } from '../components/FavoriteToggleButton';
 import { ProductNotFound } from '../components/ProductNotFound';
 import { useProducts } from '../hooks/useProducts';
+import { formatPrice } from '../utils/formatPrice';
 
 export const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -82,7 +83,7 @@ export const ProductDetail = () => {
           </Box>
 
           <Typography variant="h4" color="primary" fontWeight={900} mb={3}>
-            ${product.price}
+            {formatPrice(product.price)}
           </Typography>
 
           <Typography variant="h6" fontWeight={600} mb={1}>

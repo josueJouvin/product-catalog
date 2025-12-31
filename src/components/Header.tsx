@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { useProducts } from '../hooks/useProducts';
+import { formatPrice } from '../utils/formatPrice';
 
 export const Header = () => {
   const { totalFavoritesCount, totalFavoritesPrice } = useProducts();
@@ -22,7 +23,7 @@ export const Header = () => {
             </Typography>
           </Box>
           <Typography variant="subtitle1">
-            Total favoritos: ${totalFavoritesPrice.toFixed(2)}
+            Total favoritos: {formatPrice(totalFavoritesPrice)}
           </Typography>
         </Box>
       </Toolbar>

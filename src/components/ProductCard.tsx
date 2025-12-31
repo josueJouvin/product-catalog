@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '../types/product';
+import { formatPrice } from '../utils/formatPrice';
 import { FavoriteToggleButton } from './FavoriteToggleButton';
 
 interface ProductCardProps {
@@ -74,7 +75,7 @@ export const ProductCard = ({ product, toggleFavorite }: ProductCardProps) => {
           }}
         >
           <Typography variant="h5" color="primary" sx={{ fontWeight: 700 }}>
-            ${product.price}
+            {formatPrice(product.price)}
           </Typography>
           <Button
             variant="contained"

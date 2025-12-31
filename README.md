@@ -21,16 +21,18 @@ npm run test
 src/
 ├── store/
 │   ├── store.ts              # Configuración del store Redux
-│   └── slices/
-│       └── productsSlice.ts  # Estado de productos + selectores memoizados
+│   └── productsSlice.ts      # Estado de productos + selectores memoizados
 ├── hooks/
 │   └── useProducts.ts        # Custom hook refactorizado
 ├── components/
 │   ├── Header.tsx            # Header de la aplicación
-│   └── ProductCard.tsx       # Card individual de producto
+│   ├── ProductCard.tsx       # Card individual de producto
+│   └── FavoriteToggleButton.tsx # Botón de favoritos reutilizable
 ├── pages/
 │   ├── ProductList.tsx       # Vista principal (lista)
 │   └── ProductDetail.tsx     # Vista de detalle
+├── utils/
+│   └── formatPrice.ts        # Utilidad para formatear precios
 ├── types/
 │   └── product.ts            # Tipos TypeScript
 └── mocks/
@@ -52,6 +54,13 @@ src/
 - **Lectura:** Selectores para productos, favoritos, conteos y totales
 - **Escritura:** Dispatch de acciones para modificar estado
 - **Refactorizado:** De 230 líneas a menos de 50 líneas
+
+### Utilidades
+
+`formatPrice` función helper para formatear precios:
+
+- **Formato:** Estándar USD con separadores de miles ($2,849.97)
+- **Implementación:** Usa `Intl.NumberFormat` nativo de JavaScript
 
 ### Componentes
 

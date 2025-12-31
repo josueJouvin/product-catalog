@@ -63,8 +63,8 @@ describe('ProductList', () => {
   it('shows the prices of the products', () => {
     renderWithProviders(<ProductList />);
 
-    expect(screen.getByText('$100')).toBeDefined();
-    expect(screen.getByText('$200')).toBeDefined();
+    expect(screen.getByText('$100.00')).toBeDefined();
+    expect(screen.getByText('$200.00')).toBeDefined();
   });
 
   it('shows the "View More" button on each product', () => {
